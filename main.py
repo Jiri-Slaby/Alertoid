@@ -1,9 +1,6 @@
 # Add references to discord.py and requests
 import discord
 from discord.ext import commands
-# Add references to discord.py and requests
-import discord
-from discord.ext import commands
 import requests
 import datetime
 import asyncio
@@ -61,8 +58,14 @@ async def alert(ctx):
             # Add 3 hours to the datetime object
             time_started_plus_three = time_started + three_hours
             time_started_plus_three = time_started_plus_three.strftime("%H:%M:%S %d-%m-%Y")
+            # Get the guild from the context
+            guild = ctx.guild
+            # Get the role id from the code
+            role_id = 1139520199217905766
+            # Get the role object from the guild
+            role = guild.get_role(role_id)
 
-            message = f"There is an alert on {continent_name}!\n" \
+            message = f"{role.mention}There is an alert on {continent_name}!\n" \
                       f"Event ID: {current_alert_data['zone']}\n" \
                       f"Event State: {current_alert_data['state']}\n" \
                       f"Timestamp: {time_started_plus_three}"
