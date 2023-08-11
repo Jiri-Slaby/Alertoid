@@ -31,11 +31,13 @@ async def alert():
         # Loop over the data
         for item in data:
             # Check if the item has world 10
+            current_alert_data = None;
             if str(item["world"]) == "10":  # Use str() to convert to string
                 # Store the item in the alert_data variable
                 current_alert_data = item
                 # Break out of the loop
                 break
+
         # Create a dictionary to map the values to the continent names
         print(current_alert_data)
 
@@ -78,7 +80,7 @@ async def alert():
             # Send the message to that channel using channel.send()
             await channel.send(message)
 
-        elif current_alert_data is None and previous_alert_data is not None:
+        if current_alert_data is None and previous_alert_data is not None:
             # Send a message that there is no alert on miller server
 
             # Get the channel object with the id 1137502072086999181 using bot.get_channel()
