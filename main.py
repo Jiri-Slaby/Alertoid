@@ -60,9 +60,9 @@ async def alert(ctx):
             time_started_plus_three = time_started_plus_three.strftime("%H:%M:%S %d-%m-%Y")
 
             # Get the role id from the code
-            role_id = 1139520199217905766
+            role = 1139520199217905766
             # Get the role object from the guild
-            role = discord.Role(role_id)
+
 
             message = f"{role.mention}There is an alert on {continent_name}!\n" \
                       f"Event ID: {current_alert_data['zone']}\n" \
