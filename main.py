@@ -59,10 +59,10 @@ async def alert(ctx):
             time_started_plus_three = time_started + three_hours
             time_started_plus_three = time_started_plus_three.strftime("%H:%M:%S %d-%m-%Y")
 
-            # Get the role id from the code
-            role = 1139520199217905766
-            # Get the role object from the guild
-
+            channel = bot.get_channel(1137502072086999181)
+            role_id = 1139520199217905766
+            # get the role object from the role id
+            role = discord.utils.get(channel.guild.roles, id=role_id)
 
             message = f"{role.mention}There is an alert on {continent_name}!\n" \
                       f"Event ID: {current_alert_data['zone']}\n" \
@@ -70,7 +70,6 @@ async def alert(ctx):
                       f"Timestamp: {time_started_plus_three}"
 
             # Get the channel object with the id 1137502072086999181 using bot.get_channel()
-            channel = bot.get_channel(1137502072086999181)
 
             # Send the message to that channel using channel.send()
             await channel.send(message)
