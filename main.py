@@ -40,7 +40,7 @@ async def alert():
         print(current_alert_data)
 
         # Check if the alert_data is not None
-        if current_alert_data is not None and current_alert_data["zone"] != previous_alert_data["zone"]:
+        if current_alert_data is not None and current_alert_data["zone"] != previous_alert_data:
             continent_names = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 344: "Oshur"}
 
             # Get the value of the censusMetagameEventType key from the current_alert_data variable
@@ -69,7 +69,8 @@ async def alert():
                       f"Start time: {time_started_plus_three}"
 
             # Get the channel object with the id 1137502072086999181 using bot.get_channel()
-            previous_alert_data = current_alert_data
+            previous_alert_data = current_alert_data["zone"]
+            print(previous_alert_data)
             # Send the message to that channel using channel.send()
             await channel.send(message)
 
