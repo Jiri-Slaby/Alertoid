@@ -91,7 +91,7 @@ async def alert():
 async def loop_alert():
     while True:
         await alert() # Call the alert function with ctx as an argument
-        await asyncio.sleep(60) # Wait for 60 seconds before repeating
+        await asyncio.sleep(120) # Wait for 60 seconds before repeating
 
 @bot.event
 async def on_ready():
