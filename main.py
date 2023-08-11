@@ -55,10 +55,12 @@ async def alert():
             time_started = datetime.datetime.strptime(time_started, "%Y-%m-%dT%H:%M:%S.%fZ")
             # Create a time interval of 3 hours
             three_hours = datetime.timedelta(hours=2)
+            alert_time = datetime.timedelta(hours=1, minutes=30)
 
             # Add 3 hours to the datetime object
             time_started_plus_three = time_started + three_hours
             time_started_plus_three = time_started_plus_three.strftime("%H:%M:%S %d-%m-%Y")
+            alert_end_time = time_started_plus_three + alert_time
 
             channel = bot.get_channel(1137502072086999181)
             role_id = 1139520199217905766
@@ -66,7 +68,8 @@ async def alert():
             role = discord.utils.get(channel.guild.roles, id=role_id)
 
             message = f"{role.mention}There is an alert on {continent_name}!\n" \
-                      f"Start time: {time_started_plus_three}"
+                      f"Start time: {time_started_plus_three}\n" \
+                      f"End time: {alert_end_time}\n"
 
             # Get the channel object with the id 1137502072086999181 using bot.get_channel()
             previous_alert_data = current_alert_data["zone"]
@@ -81,7 +84,7 @@ async def alert():
             channel = bot.get_channel(1137502072086999181)
 
             # Send the message to that channel using channel.send()
-            await channel.send("The alert has ended")
+            await channel.send("___________________________The alert has ended___________________________")
 
 
 async def loop_alert():
