@@ -61,6 +61,7 @@ async def alert():
             time_started_plus_three = time_started + three_hours
             time_started_plus_three = time_started_plus_three.strftime("%H:%M:%S %d-%m-%Y")
             alert_end_time = time_started_plus_three + alert_time
+            alert_end_time = alert_end_time.strftime("%H:%M:%S %d-%m-%Y")
 
             channel = bot.get_channel(1137502072086999181)
             role_id = 1139520199217905766
