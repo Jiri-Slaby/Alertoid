@@ -66,17 +66,12 @@ async def alert(ctx):
             role = discord.utils.get(channel.guild.roles, id=role_id)
 
             message = f"{role.mention}There is an alert on {continent_name}!\n" \
-                      f"Event ID: {current_alert_data['zone']}\n" \
-                      f"Event State: {current_alert_data['state']}\n" \
-                      f"Timestamp: {time_started_plus_three}"
+                      f"Start time: {time_started_plus_three}"
 
             # Get the channel object with the id 1137502072086999181 using bot.get_channel()
-
+            previous_alert_data = current_alert_data
             # Send the message to that channel using channel.send()
             await channel.send(message)
-
-            # Update the previous_alert_data variable with the current_alert_data value
-            previous_alert_data = current_alert_data
 
         elif current_alert_data is None and previous_alert_data is not None:
             # Send a message that there is no alert on miller server
