@@ -12,12 +12,14 @@ intents.members = True # This will enable the members intent
 # Create a bot instance with a command prefix
 bot = commands.Bot(command_prefix="!", intents=intents)
 previous_alert_data = None
+current_alert_data = None
 
 
 # Define a command to get the alert data from the planetside 2 api
 async def alert(ctx):
     # Send a GET request to the api endpoint
     global previous_alert_data
+    global current_alert_data
     response = requests.get("https://api.ps2alerts.com/instances/active")
 
     # Check if the response is successful
@@ -25,7 +27,6 @@ async def alert(ctx):
         # Parse the JSON data into a dictionary
         data = response.json()
         # Initialize a variable to store the alert data
-        current_alert_data = None
 
         # Loop over the data
         for item in data:
@@ -84,7 +85,7 @@ async def alert(ctx):
             channel = bot.get_channel(1137502072086999181)
 
             # Send the message to that channel using channel.send()
-            await channel.send("There is no alert on Miller server.")
+            await channel.send("The alert has ended")
 
 
 async def loop_alert(ctx):
