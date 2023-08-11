@@ -88,6 +88,9 @@ async def alert(ctx):
             # Send the message to that channel using channel.send()
             await channel.send("There is no alert on Miller server.")
 
+            # Update the previous_alert_data variable with None
+            previous_alert_data = None
+
 async def loop_alert(ctx):
     while True:
         await alert(ctx) # Call the alert function with ctx as an argument
