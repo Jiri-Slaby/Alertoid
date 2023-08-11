@@ -16,7 +16,7 @@ current_alert_data = None
 
 
 # Define a command to get the alert data from the planetside 2 api
-async def alert(ctx):
+async def alert():
     # Send a GET request to the api endpoint
     global previous_alert_data
     global current_alert_data
@@ -40,7 +40,7 @@ async def alert(ctx):
         print(current_alert_data)
 
         # Check if the alert_data is not None
-        if current_alert_data is not None and current_alert_data != previous_alert_data:
+        if current_alert_data is not None and current_alert_data["zone"] != previous_alert_data["zone"]:
             continent_names = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 344: "Oshur"}
 
             # Get the value of the censusMetagameEventType key from the current_alert_data variable
@@ -83,15 +83,15 @@ async def alert(ctx):
             await channel.send("The alert has ended")
 
 
-async def loop_alert(ctx):
+async def loop_alert():
     while True:
-        await alert(ctx) # Call the alert function with ctx as an argument
+        await alert() # Call the alert function with ctx as an argument
         await asyncio.sleep(60) # Wait for 60 seconds before repeating
 
 @bot.event
 async def on_ready():
     print(f"{bot.user} has connected to Discord!") # Print a message to indicate that the bot is ready
-    await loop_alert(None) # Call the loop_alert function with None as an argument
+    await loop_alert() # Call the loop_alert function with None as an argument
 
 # Run the bot with your bot token
 bot.run("MTEzNzQ3OTA3MDg4ODc3MTYyNQ.Gx94YO.OA47KNWXVh25XI7_vX2peCK8HCyA1eACmG3ktA")
