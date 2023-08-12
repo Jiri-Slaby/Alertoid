@@ -100,5 +100,5 @@ async def on_ready():
     print(f"{bot.user} has connected to Discord!") # Print a message to indicate that the bot is ready
     await loop_alert() # Call the loop_alert function with None as an argument
 
-# Run the bot with your bot token
+# Run the bot with your bot token updated token MTEzNzQ3OTA3MDg4ODc3MTYyNQ.GGMnum._kMg7JLlHL0q2V0_dUq7XGCT34JYBqdB8xl6GI
 bot.run("MTEzNzQ3OTA3MDg4ODc3MTYyNQ.GGMnum._kMg7JLlHL0q2V0_dUq7XGCT34JYBqdB8xl6GI")
