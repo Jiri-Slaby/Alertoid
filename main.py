@@ -88,6 +88,7 @@ async def alert():
 
             # Send the message to that channel using channel.send()
             await channel.send("___________________________The alert has ended___________________________")
+            previous_alert_data = None
 
 
 async def loop_alert():
