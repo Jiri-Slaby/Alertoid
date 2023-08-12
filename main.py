@@ -4,6 +4,7 @@ from discord.ext import commands
 import requests
 import datetime
 import asyncio
+import json
 
 
 intents = discord.Intents.all() # This will enable the default intents
@@ -93,22 +94,38 @@ async def alert():
 async def map(ctx):
     # Define the base URL for the API
     base_url = "http://census.daybreakgames.com/s:example/get/ps2:v2/world/?world_id=10"
-    # Make a GET request to the API and get the JSON response
-    response = requests.get(base_url).json()
-    # Get the current continent ID from the response
-    continent_id = response["world_list"][0]["state"]["current_faction"]
-    # Define a dictionary to map continent IDs to names
-    continents = {
-        "2": "Indar",
-        "4": "Hossin",
-        "6": "Amerish",
-        "8": "Esamir",
-        "344": "Oshur"
-    }
-    # Get the continent name from the dictionary
-    continent_name = continents.get(continent_id, "Unknown")
-    # Create a message to send back to the user
-    message = f"The active continent is {continent_name}."
+    # Make a GET request to the API and get the response object
+    response = requests.get(base_url)
+    # Check if the response status code is 200 (OK)
+    if response.status_code == 200:
+        # Try to convert the response to a JSON object
+        try:
+            data = response.json()
+        except json.JSONDecodeError:
+            # The response is not a valid JSON
+            data = None
+        # Check if the data is not None
+        if data:
+            # Get the current continent ID from the data
+            continent_id = data["world_list"][0]["state"]["current_faction"]
+            # Define a dictionary to map continent IDs to names
+            continents = {
+                "2": "Indar",
+                "4": "Hossin",
+                "6": "Amerish",
+                "8": "Esamir",
+                "344": "Oshur"
+            }
+            # Get the continent name from the dictionary
+            continent_name = continents.get(continent_id, "Unknown")
+            # Create a message to send back to the user
+            message = f"The active continent is {continent_name}."
+        else:
+            # The data is None
+            message = "The API did not return a valid JSON."
+    else:
+        # The response status code is not 200 (OK)
+        message = f"The API request failed with status code {response.status_code}."
     # Send the message to the user
     await ctx.send(message)
 
