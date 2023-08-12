@@ -101,4 +101,4 @@ async def on_ready():
     await loop_alert() # Call the loop_alert function with None as an argument
 
 # Run the bot with your bot token
-bot.run("MTEzNzQ3OTA3MDg4ODc3MTYyNQ.Gx94YO.OA47KNWXVh25XI7_vX2peCK8HCyA1eACmG3ktA")
+bot.run("MTEzNzQ3OTA3MDg4ODc3MTYyNQ.GGMnum._kMg7JLlHL0q2V0_dUq7XGCT34JYBqdB8xl6GI")
