@@ -92,42 +92,39 @@ async def alert():
             previous_alert_data = None
 @bot.command()
 async def map(ctx):
-    # Define the base URL for the API
-    base_url = "http://census.daybreakgames.com/s:example/get/ps2:v2/world/?world_id=10"
-    # Make a GET request to the API and get the response object
-    response = requests.get(base_url)
-    # Check if the response status code is 200 (OK)
-    if response.status_code == 200:
-        # Try to convert the response to a JSON object
-        try:
-            data = response.json()
-        except json.JSONDecodeError:
-            # The response is not a valid JSON
-            data = None
-        # Check if the data is not None
-        if data:
-            # Get the current continent ID from the data
-            continent_id = data["world_list"][0]["state"]["current_faction"]
-            # Define a dictionary to map continent IDs to names
-            continents = {
-                "2": "Indar",
-                "4": "Hossin",
-                "6": "Amerish",
-                "8": "Esamir",
-                "344": "Oshur"
-            }
-            # Get the continent name from the dictionary
-            continent_name = continents.get(continent_id, "Unknown")
-            # Create a message to send back to the user
-            message = f"The active continent is {continent_name}."
+    url = "https://census.daybreakgames.com/s:example/get/ps2:v2/world_event?type=METAGAME&world_id=10"
+
+    # Get the response from the URL as a JSON object
+    response = requests.get(url).json()
+
+    # Get the list of events from the response
+    events = response["world_event_list"]
+
+    # Create an empty dictionary to store the counts of each zone_id
+    zone_counts = {}
+
+    # Loop through each event in the list
+    for event in events:
+        # Get the zone_id of the event
+        zone_id = event["zone_id"]
+        # If the zone_id is already in the dictionary, increment its count by one
+        if zone_id in zone_counts:
+            zone_counts[zone_id] += 1
+        # Otherwise, add it to the dictionary with a count of one
         else:
-            # The data is None
-            message = "The API did not return a valid JSON."
-    else:
-        # The response status code is not 200 (OK)
-        message = f"The API request failed with status code {response.status_code}."
-    # Send the message to the user
-    await ctx.send(message)
+            zone_counts[zone_id] = 1
+
+    # Define the dictionary of zone names and ids
+    zone_names = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 344: "Oshur"}
+
+    # Loop through each key-value pair in the zone names dictionary
+    for zone_id, zone_name in zone_names.items():
+        # If the zone id is in the zone counts dictionary, print the zone name
+        if zone_id in zone_counts:
+            channel = bot.get_channel(1137502072086999181)
+
+            # Send the message to that channel using channel.send()
+            await channel.send(zone_name)
 
 async def loop_alert():
     while True:
