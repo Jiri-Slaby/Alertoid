@@ -89,7 +89,28 @@ async def alert():
             # Send the message to that channel using channel.send()
             await channel.send("___________________________The alert has ended___________________________")
             previous_alert_data = None
-
+@bot.command()
+async def map(ctx):
+    # Define the base URL for the API
+    base_url = "http://census.daybreakgames.com/s:example/get/ps2:v2/world/?world_id=10"
+    # Make a GET request to the API and get the JSON response
+    response = requests.get(base_url).json()
+    # Get the current continent ID from the response
+    continent_id = response["world_list"][0]["state"]["current_faction"]
+    # Define a dictionary to map continent IDs to names
+    continents = {
+        "2": "Indar",
+        "4": "Hossin",
+        "6": "Amerish",
+        "8": "Esamir",
+        "344": "Oshur"
+    }
+    # Get the continent name from the dictionary
+    continent_name = continents.get(continent_id, "Unknown")
+    # Create a message to send back to the user
+    message = f"The active continent is {continent_name}."
+    # Send the message to the user
+    await ctx.send(message)
 
 async def loop_alert():
     while True:
