@@ -3,6 +3,7 @@ from discord.ext import commands
 import requests
 import datetime
 import asyncio
+import os
 import json
 
 intents = discord.Intents.all()  # This will enable the all intents
@@ -13,6 +14,10 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 # Global Variables
 previous_alert_data = None
 current_alert_data = None
+
+# Access your service variables
+bot_token = os.environ['Bot_token']
+ps2_api_token = os.environ['PS2_API_token']
 
 
 async def alert():
@@ -87,7 +92,7 @@ async def alert():
 
 @bot.command()
 async def map(ctx):
-    base_url = "https://census.daybreakgames.com/s:alertoid/get/ps2:v2/map/"
+    base_url = "https://census.daybreakgames.com/s:"+str(ps2_api_token)+"0/get/ps2:v2/map/"
 
     # Define the zone names
     zone_names = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 344: "Oshur"}
@@ -156,4 +161,4 @@ async def on_ready():
 
 
 # Discord bot token
-bot.run(Bot_token)
+bot.run(bot_token)
