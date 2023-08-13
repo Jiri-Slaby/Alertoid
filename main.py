@@ -105,6 +105,7 @@ async def map(ctx):
 
     # Define the zone ids
     zone_ids = [2, 4, 6, 8, 344]
+    channel = bot.get_channel(1137502072086999181)
     # Loop through the zone ids
     for zone_id in zone_ids:
         # Construct the full url with query parameters
@@ -132,7 +133,7 @@ async def map(ctx):
             faction_name = faction_names[int(faction_name)]
 
             print(zone_id + " is LOCKED by: " + str(faction_name))
-            channel = bot.get_channel(1137502072086999181)
+
             # Send the message to that channel using channel.send()
             await channel.send(zone_id + " is LOCKED by: " + str(faction_name))
         else:
