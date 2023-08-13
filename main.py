@@ -92,39 +92,53 @@ async def alert():
             previous_alert_data = None
 @bot.command()
 async def map(ctx):
-    url = "https://census.daybreakgames.com/s:example/get/ps2:v2/world_event?type=METAGAME&world_id=10"
+    base_url = "https://census.daybreakgames.com/s:alertoid/get/ps2:v2/map/"
 
-    # Get the response from the URL as a JSON object
-    response = requests.get(url).json()
-
-    # Get the list of events from the response
-    events = response["world_event_list"]
-
-    # Create an empty dictionary to store the counts of each zone_id
-    zone_counts = {}
-
-    # Loop through each event in the list
-    for event in events:
-        # Get the zone_id of the event
-        zone_id = event["zone_id"]
-        # If the zone_id is already in the dictionary, increment its count by one
-        if zone_id in zone_counts:
-            zone_counts[zone_id] += 1
-        # Otherwise, add it to the dictionary with a count of one
-        else:
-            zone_counts[zone_id] = 1
-
-    # Define the dictionary of zone names and ids
+    # Define the zone names
     zone_names = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 344: "Oshur"}
 
-    # Loop through each key-value pair in the zone names dictionary
-    for zone_id, zone_name in zone_names.items():
-        # If the zone id is in the zone counts dictionary, print the zone name
-        if zone_id in zone_counts:
-            channel = bot.get_channel(1137502072086999181)
+    # Define the faction names
+    faction_names = {0: "NS", 1: "VS", 2: "NC", 3: "TR"}
 
+    # Define the world id
+    world_id = 10
+
+    # Define the zone ids
+    zone_ids = [2, 4, 6, 8, 344]
+    # Loop through the zone ids
+    for zone_id in zone_ids:
+        # Construct the full url with query parameters
+        full_url = base_url + "?world_id=" + str(world_id) + "&zone_ids=" + str(zone_id)
+        # Make a GET request and get the response as JSON
+        response = requests.get(full_url).json()
+        # Get the map data from the response
+        map_data = response["map_list"][0]["Regions"]["Row"]
+        # Initialize a set to store the faction ids
+        faction_ids = set()
+        # Loop through the map data
+        for row in map_data:
+            # Get the faction id from the row
+            faction_id = row["RowData"]["FactionId"]
+            # Add the faction id to the set if it is not 0 (neutral)
+            if faction_id != "0":
+                faction_ids.add(faction_id)
+
+        zone_id = zone_names[(zone_id)]
+        # Check if the set has only one element
+        if len(faction_ids) == 1:
+
+            # Print that the continent is locked by that faction
+            faction_name = (faction_ids.pop())
+            faction_name = faction_names[int(faction_name)]
+
+            print(zone_id + " is LOCKED by: " + str(faction_name))
+            channel = bot.get_channel(1137502072086999181)
             # Send the message to that channel using channel.send()
-            await channel.send(zone_name)
+            await channel.send(zone_id + " is LOCKED by: " + str(faction_name))
+        else:
+            # Print that the continent is not locked
+            print(str(zone_id) + " is OPEN")
+            await channel.send(str(zone_id) + " is OPEN")
 
 async def loop_alert():
     while True:
