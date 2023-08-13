@@ -103,8 +103,6 @@ async def map(ctx):
 
     # Define the zone ids
     zone_ids = [2, 4, 6, 8, 344]
-    # Get the channel where the command is called
-    channels = bot.get_channel(ctx)
 
     # Initialize a list to store locked zone information
     locked_zones_info = []
@@ -141,7 +139,8 @@ async def map(ctx):
     # Join information into a single string
     locked_zones_summary = "\n".join(locked_zones_info)
     print(locked_zones_summary + "locked zone summary")
-    # Send message to the channel
+
+    # Get the channel and send message
     channels = bot.get_channel(ctx.channel.id)
     await channels.send(locked_zones_summary)
 
