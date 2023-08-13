@@ -4,7 +4,6 @@ import requests
 import datetime
 import asyncio
 import os
-import json
 
 intents = discord.Intents.all()  # This will enable the all intents
 intents.members = True  # This will enable the members intent
@@ -105,7 +104,7 @@ async def map(ctx):
     # Define the zone ids
     zone_ids = [2, 4, 6, 8, 344]
     # Get the channel where the command is called
-    channel = bot.get_channel(ctx)
+    channels = bot.get_channel(ctx)
 
     # Initialize a list to store locked zone information
     locked_zones_info = []
@@ -130,7 +129,7 @@ async def map(ctx):
                 faction_ids.add(faction_id)
 
         zone_id = zone_names[zone_id]
-
+        print(ps2_api_token)
         # Check if the set has only one element
         if len(faction_ids) == 1:
             # Continent is locked, get the faction name
@@ -144,7 +143,8 @@ async def map(ctx):
     locked_zones_summary = "\n".join(locked_zones_info)
     print(locked_zones_summary + "locked zone summary")
     # Send message to the channel
-    await channel.send(locked_zones_summary)
+    channels = bot.get_channel(ctx)
+    await channels.send(locked_zones_summary)
 
 
 async def loop_alert():
