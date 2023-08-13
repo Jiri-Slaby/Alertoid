@@ -142,7 +142,7 @@ async def map(ctx):
 
     # Join information into a single string
     locked_zones_summary = "\n".join(locked_zones_info)
-
+    print(locked_zones_summary + "locked zone summary")
     # Send message to the channel
     await channel.send(locked_zones_summary)
 
