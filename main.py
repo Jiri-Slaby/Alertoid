@@ -106,6 +106,10 @@ async def map(ctx):
     # Define the zone ids
     zone_ids = [2, 4, 6, 8, 344]
     channel = bot.get_channel(1137502072086999181)
+
+    # Initialize a list to store locked zone information
+    locked_zones_info = []
+
     # Loop through the zone ids
     for zone_id in zone_ids:
         # Construct the full url with query parameters
@@ -124,22 +128,23 @@ async def map(ctx):
             if faction_id != "0":
                 faction_ids.add(faction_id)
 
-        zone_id = zone_names[(zone_id)]
+        zone_id = zone_names[zone_id]
+
         # Check if the set has only one element
         if len(faction_ids) == 1:
-
-            # Print that the continent is locked by that faction
-            faction_name = (faction_ids.pop())
-            faction_name = faction_names[int(faction_name)]
-
-            print(zone_id + " is LOCKED by: " + str(faction_name))
-
-            # Send the message to that channel using channel.send()
-            await channel.send(zone_id + " is LOCKED by: " + str(faction_name))
+            # Continent is locked, get the faction name
+            faction_name = faction_names[int(faction_ids.pop())]
+            locked_zones_info.append(f"{zone_id} is LOCKED by: {faction_name}")
         else:
-            # Print that the continent is not locked
-            print(str(zone_id) + " is OPEN")
-            await channel.send(str(zone_id) + " is OPEN")
+            # Continent is not locked
+            locked_zones_info.append(f"{zone_id} is OPEN")
+
+    # Join the locked zone information into a single string
+    locked_zones_summary = "\n".join(locked_zones_info)
+
+    # Send the summary message to the channel
+    await channel.send(locked_zones_summary)
+
 
 async def loop_alert():
     while True:
