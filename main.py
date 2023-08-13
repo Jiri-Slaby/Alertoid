@@ -92,7 +92,6 @@ async def alert():
 
 @bot.command()
 async def map(ctx):
-    base_url = "https://census.daybreakgames.com/s:"+str(ps2_api_token)+"/get/ps2:v2/map/"
 
     # Define the zone names
     zone_names = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 344: "Oshur"}
@@ -114,7 +113,7 @@ async def map(ctx):
     # Loop through the zone ids
     for zone_id in zone_ids:
         # Construct the full url
-        full_url = base_url + "?world_id=" + str(world_id) + "&zone_ids=" + str(zone_id)
+        full_url = "https://census.daybreakgames.com/s:"+str(ps2_api_token)+"/get/ps2:v2/map/?world_id=" + str(world_id) + "&zone_ids=" + str(zone_id)
         # Make a GET request
         response = requests.get(full_url).json()
         # Get the map data from the response
