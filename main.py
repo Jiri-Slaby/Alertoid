@@ -129,7 +129,6 @@ async def map(ctx):
                 faction_ids.add(faction_id)
 
         zone_id = zone_names[zone_id]
-        print(ps2_api_token)
         # Check if the set has only one element
         if len(faction_ids) == 1:
             # Continent is locked, get the faction name
@@ -143,7 +142,7 @@ async def map(ctx):
     locked_zones_summary = "\n".join(locked_zones_info)
     print(locked_zones_summary + "locked zone summary")
     # Send message to the channel
-    channels = bot.get_channel(ctx)
+    channels = bot.get_channel(ctx.channel.id)
     await channels.send(locked_zones_summary)
 
 
