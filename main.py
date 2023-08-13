@@ -92,7 +92,7 @@ async def alert():
 
 @bot.command()
 async def map(ctx):
-    base_url = "https://census.daybreakgames.com/s:"+str(ps2_api_token)+"0/get/ps2:v2/map/"
+    base_url = "https://census.daybreakgames.com/s:"+str(ps2_api_token)+"/get/ps2:v2/map/"
 
     # Define the zone names
     zone_names = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 344: "Oshur"}
