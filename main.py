@@ -104,14 +104,16 @@ async def credit(ctx):
 @bot.command()
 async def setserver(ctx, world_id):
     global server_id
-    channel = bot.get_channel(ctx)
     server_id = world_id
+    channel = bot.get_channel(ctx.channel.id)
     await channel.send("Server is set to " + str(server_id))
 @bot.command()
 async def setchannel(ctx, channel_name):
     global channel_id
     channel_id = discord.utils.get(ctx.guild.channels, name=channel_name)
-    await ctx.send("Channel is set to " + str(channel_name))
+    channel = bot.get_channel(ctx.channel.id)
+    await channel.send("Channel is set to " + str(channel_name))
+
 @bot.command()
 async def map(ctx):
 
@@ -161,8 +163,8 @@ async def map(ctx):
     print(locked_zones_summary + "locked zone summary")
 
     # Get the channel and send message
-    channels = bot.get_channel(ctx.channel.id)
-    await channels.send(locked_zones_summary)
+    channel = bot.get_channel(ctx.channel.id)
+    await channel.send(locked_zones_summary)
 
 
 async def loop_alert():
