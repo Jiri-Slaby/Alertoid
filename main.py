@@ -17,6 +17,8 @@ current_alert_data = None
 # Access your service variables
 bot_token = os.environ['Bot_token']
 ps2_api_token = os.environ['PS2_API_token']
+channel_id = None
+server_id = None
 
 
 async def alert():
@@ -33,7 +35,7 @@ async def alert():
         for item in data:
             # Check if the item has world 10
             current_alert_data = None
-            if str(item["world"]) == "10":
+            if str(item["world"]) == str(server_id):
                 # Store the item in the alert_data
                 current_alert_data = item
                 break
@@ -66,7 +68,7 @@ async def alert():
             time_started_plus_three = time_started_plus_three.strftime("%H:%M:%S %d-%m-%Y")
             alert_end_time = alert_end_time.strftime("%H:%M:%S %d-%m-%Y")
 
-            channel = bot.get_channel(1137502072086999181)
+            channel = bot.get_channel(channel_id)
             role_id = 1139520199217905766
 
             # get the role object from the role id
@@ -83,12 +85,31 @@ async def alert():
 
         if current_alert_data is None and previous_alert_data is not None:
             # Get the channel
-            channel = bot.get_channel(1137502072086999181)
+            channel = bot.get_channel(channel_id)
             # Send the message
             await channel.send("___________________________The alert has ended___________________________")
             previous_alert_data = None
+@bot.command()
+async def help(ctx):
+    message =f"!setserver number - Sets the Planetside 2 server by number.\n"\
+             f"!setchannel channelname - Sets the channel where the information about alerts will be send.\n" \
+             f"!map - Chek which maps are locked and which arent.\n" \
+             f"!credit - Link to BOT Github page.\n"
+    ctx.send(message)
 
-
+@bot.command()
+async def credit(ctx):
+    channel = bot.get_channel(ctx.channel)
+    channel.send("https://github.com/Jiri-Slaby/Alertoid")
+@bot.command()
+async def setserver(ctx, world_id):
+    channel = bot.get_channel(ctx)
+    server_id = world_id
+    channel.send("Server is set to " + str(server_id))
+@bot.command()
+async def setchannel(ctx, channel_name):
+    channel_id = discord.utils.get(ctx.guild.channels, name=channel_name)
+    ctx.send("Channel is set to " + str(channel_name))
 @bot.command()
 async def map(ctx):
 
@@ -97,9 +118,6 @@ async def map(ctx):
 
     # Define the faction names
     faction_names = {0: "NS", 1: "VS", 2: "NC", 3: "TR"}
-
-    # Define the world id
-    world_id = 10
 
     # Define the zone ids
     zone_ids = [2, 4, 6, 8, 344]
@@ -110,7 +128,7 @@ async def map(ctx):
     # Loop through the zone ids
     for zone_id in zone_ids:
         # Construct the full url
-        full_url = "https://census.daybreakgames.com/s:"+str(ps2_api_token)+"/get/ps2:v2/map/?world_id=" + str(world_id) + "&zone_ids=" + str(zone_id)
+        full_url = "https://census.daybreakgames.com/s:"+str(ps2_api_token)+"/get/ps2:v2/map/?world_id=" + str(server_id) + "&zone_ids=" + str(zone_id)
         # Make a GET request
         response = requests.get(full_url).json()
         # Get the map data from the response
