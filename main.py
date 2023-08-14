@@ -24,6 +24,7 @@ server_id = None
 async def alert():
     global previous_alert_data
     global current_alert_data
+    global channel_id
     # Send a GET request to the api endpoint
     response = requests.get("https://api.ps2alerts.com/instances/active")
 
@@ -62,19 +63,15 @@ async def alert():
             three_hours = datetime.timedelta(hours=2)
             alert_time = datetime.timedelta(hours=1, minutes=30)
 
-            # Time managment
+            # Time management
             time_started_plus_three = time_started + three_hours
             alert_end_time = time_started_plus_three + alert_time
             time_started_plus_three = time_started_plus_three.strftime("%H:%M:%S %d-%m-%Y")
             alert_end_time = alert_end_time.strftime("%H:%M:%S %d-%m-%Y")
 
             channel = bot.get_channel(channel_id)
-            role_id = 1139520199217905766
 
-            # get the role object from the role id
-            role = discord.utils.get(channel.guild.roles, id=role_id)
-
-            message = f"{role.mention}There is an alert on {continent_name}!\n" \
+            message = f"There is an alert on {continent_name}!\n" \
                       f"Start time: {time_started_plus_three}\n" \
                       f"End time: {alert_end_time}\n"
 
