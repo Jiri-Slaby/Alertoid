@@ -101,11 +101,13 @@ async def credit(ctx):
 async def setserver(ctx, world_id):
     global server_id
     server_id = world_id
+    print("Server is set to " + str(server_id))
     await ctx.send("Server is set to " + str(server_id))
 @bot.command()
 async def setchannel(ctx, channel_name):
     global channel_id
     channel_id = discord.utils.get(ctx.guild.channels, name=channel_name)
+    print("Channel is set to " + str(channel_id))
     await ctx.send("Channel is set to " + str(channel_name))
 
 @bot.command()
