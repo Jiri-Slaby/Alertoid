@@ -90,7 +90,7 @@ async def alert():
             await channel.send("___________________________The alert has ended___________________________")
             previous_alert_data = None
 @bot.command()
-async def help(ctx):
+async def commands(ctx):
     message =f"!setserver number - Sets the Planetside 2 server by number.\n"\
              f"!setchannel channelname - Sets the channel where the information about alerts will be send.\n" \
              f"!map - Chek which maps are locked and which arent.\n" \
