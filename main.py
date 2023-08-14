@@ -107,6 +107,7 @@ async def setserver(ctx, world_id):
 async def setchannel(ctx, channel_name):
     global channel_id
     channel_id = discord.utils.get(ctx.guild.channels, name=channel_name)
+    channel_id = channel_id.id
     print("Channel is set to " + str(channel_id))
     await ctx.send("Channel is set to " + str(channel_name))
 
