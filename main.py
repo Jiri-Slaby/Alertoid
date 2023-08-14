@@ -91,28 +91,25 @@ async def alert():
             previous_alert_data = None
 @bot.command()
 async def commands(ctx):
-    message =f"!setserver number - Sets the Planetside 2 server by number.\n"\
-             f"!setchannel channelname - Sets the channel where the information about alerts will be send.\n" \
-             f"!map - Chek which maps are locked and which arent.\n" \
-             f"!credit - Link to BOT Github page.\n"
+    message =f"!setserver number - Sets the Planetside 2 server number.\n"\
+             f"!setchannel channel_name - Sets the channel where the information about alerts will be send.\n" \
+             f"!map - Check which maps are locked and which are open.\n" \
+             f"!credit - Link to BOTs Github page.\n"
     await ctx.send(message)
 
 @bot.command()
 async def credit(ctx):
-    channel = bot.get_channel(ctx.channel)
-    await channel.send("https://github.com/Jiri-Slaby/Alertoid")
+    await ctx.send("https://github.com/Jiri-Slaby/Alertoid")
 @bot.command()
 async def setserver(ctx, world_id):
     global server_id
     server_id = world_id
-    channel = bot.get_channel(ctx.channel.id)
-    await channel.send("Server is set to " + str(server_id))
+    await ctx.send("Server is set to " + str(server_id))
 @bot.command()
 async def setchannel(ctx, channel_name):
     global channel_id
     channel_id = discord.utils.get(ctx.guild.channels, name=channel_name)
-    channel = bot.get_channel(ctx.channel.id)
-    await channel.send("Channel is set to " + str(channel_name))
+    await ctx.send("Channel is set to " + str(channel_name))
 
 @bot.command()
 async def map(ctx):
